@@ -14,6 +14,9 @@ A production-grade hosted API service and interactive dashboard that reverse eng
 ---
 
 ## 📸 Dashboard Preview
+
+![Dashboard Preview](screenshot.png)
+
 The application bundles a beautiful frontend dashboard at the root URL (`/`) when running the server:
 *   Allows pasting any LinkedIn URL.
 *   Shows real-time loading steps (Connecting, Fetching, Normalizing).
