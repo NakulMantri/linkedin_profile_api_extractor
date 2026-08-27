@@ -29,6 +29,10 @@
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.hidden {
+    display: none !important;
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -144,6 +148,11 @@ header {
 .status-indicator.offline {
     background-color: var(--danger);
     box-shadow: 0 0 8px var(--danger);
+}
+
+.status-indicator.warning {
+    background-color: var(--warning);
+    box-shadow: 0 0 8px var(--warning);
 }
 
 .status-indicator.pinging {

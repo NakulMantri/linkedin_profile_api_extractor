@@ -172,11 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch('/health');
             const data = await res.json();
             
-            indicator.className = 'status-indicator online';
-            
             if (data.cookies_configured) {
+                indicator.className = 'status-indicator online';
                 label.textContent = 'API Server Online';
+                label.style.color = '';
             } else {
+                indicator.className = 'status-indicator warning';
                 label.textContent = 'API Config Required';
                 label.style.color = 'var(--warning)';
                 showConfigWarning();
