@@ -13,7 +13,7 @@ A production-grade hosted API service and interactive dashboard that reverse eng
 
 ---
 
-## 📸 Dashboard Preview
+## 📸 Dashboard Preview for a profile
 
 ![Dashboard Preview](screenshot.png)
 
