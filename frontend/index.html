@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Profile Extractor Dashboard</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fa-brands fa-linkedin brand-icon"></i>
+                <span class="logo-text">LinkExtract<span class="accent-text">.API</span></span>
+            </div>
+            <div class="api-status" id="api-status">
+                <span class="status-indicator pinging"></span>
+                <span class="status-label">Checking API status...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Hero Search Section -->
+            <section class="search-section">
+                <h1>LinkedIn Profile Extractor</h1>
+                <p class="subtitle">Extract structured JSON profile details instantly. Works using secure backend voyager session tokens.</p>
+                
+                <form id="extract-form" class="search-form">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-link input-icon"></i>
+                        <input 
+                            type="url" 
+                            id="profile-url" 
+                            placeholder="Enter LinkedIn Profile URL (e.g., https://www.linkedin.com/in/username)" 
+                            required
+                        >
+                    </div>
+                    <button type="submit" id="submit-btn">
+                        <span>Extract Data</span>
+                        <i class="fa-solid fa-arrow-right button-icon"></i>
+                    </button>
+                </form>
+                
+                <!-- Loading State -->
+                <div id="loader" class="loader-container hidden">
+                    <div class="spinner"></div>
+                    <div class="loading-steps">
+                        <div class="step active" id="step-connect"><i class="fa-solid fa-circle-notch fa-spin"></i> Connecting to API...</div>
+                        <div class="step" id="step-scrape"><i class="fa-regular fa-circle"></i> Fetching profile from LinkedIn...</div>
+                        <div class="step" id="step-parse"><i class="fa-regular fa-circle"></i> Parsing and structuring payload...</div>
+                    </div>
+                </div>
+
+                <!-- Error Messages -->
+                <div id="error-card" class="error-container hidden">
+                    <i class="fa-solid fa-triangle-exclamation error-icon"></i>
+                    <div class="error-content">
+                        <h3>Extraction Failed</h3>
+                        <p id="error-message">Something went wrong. Please check the profile URL or backend cookies.</p>
+                    </div>
+                    <button class="close-err-btn" id="close-err-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </section>
+
+            <!-- Dashboard Results -->
+            <section id="results-section" class="results-grid hidden">
+                
+                <!-- Tab Controls -->
+                <div class="results-header-tabs">
+                    <button class="tab-btn active" data-tab="visual-profile">
+                        <i class="fa-solid fa-user-tie"></i> Profile Dashboard
+                    </button>
+                    <button class="tab-btn" data-tab="json-payload">
+                        <i class="fa-solid fa-code"></i> Raw JSON Response
+                    </button>
+                </div>
+
+                <!-- Visual Profile Tab -->
+                <div id="visual-profile" class="tab-content active">
+                    <div class="profile-card-container">
+                        <!-- Top Card Cover -->
+                        <div class="profile-cover"></div>
+                        <div class="profile-header-details">
+                            <div class="avatar-wrapper">
+                                <img id="profile-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256" alt="Profile Picture">
+                                <div class="avatar-fallback hidden"><i class="fa-solid fa-user"></i></div>
+                            </div>
+                            <div class="header-info">
+                                <div class="name-badge-row">
+                                    <h2 id="profile-name">Jane Doe</h2>
+                                    <span class="urn-tag" id="profile-urn-tag">urn:li:fs_profile:12345</span>
+                                </div>
+                                <p id="profile-headline" class="headline">Software Engineer at Tech Corp</p>
+                                <div class="metadata-row">
+                                    <span class="meta-item"><i class="fa-solid fa-location-dot"></i> <span id="profile-location">San Francisco, CA</span></span>
+                                    <span class="meta-item hidden" id="meta-email-container"><i class="fa-solid fa-envelope"></i> <span id="profile-email">jane@example.com</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About Section -->
+                        <div class="profile-section" id="section-about">
+                            <h3><i class="fa-solid fa-circle-info"></i> About</h3>
+                            <p id="profile-summary">Experienced software developer specializing in building scalable web APIs...</p>
+                        </div>
+
+                        <!-- Experience Section -->
+                        <div class="profile-section" id="section-experience">
+                            <h3><i class="fa-solid fa-briefcase"></i> Experience</h3>
+                            <div class="timeline" id="experience-list">
+                                <!-- Experience cards injected here -->
+                            </div>
+                        </div>
+
+                        <!-- Education Section -->
+                        <div class="profile-section" id="section-education">
+                            <h3><i class="fa-solid fa-graduation-cap"></i> Education</h3>
+                            <div class="timeline" id="education-list">
+                                <!-- Education cards injected here -->
+                            </div>
+                        </div>
+
+                        <!-- Certifications & Skills Layout Grid -->
+                        <div class="grid-columns">
+                            <!-- Skills -->
+                            <div class="profile-section card-style" id="section-skills">
+                                <h3><i class="fa-solid fa-lightbulb"></i> Skills</h3>
+                                <div class="skills-container" id="skills-list">
+                                    <!-- Skills injected here -->
+                                </div>
+                            </div>
+
+                            <!-- Certifications -->
+                            <div class="profile-section card-style" id="section-certifications">
+                                <h3><i class="fa-solid fa-award"></i> Certifications</h3>
+                                <div class="certifications-list" id="certifications-list">
+                                    <!-- Certifications injected here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Languages -->
+                        <div class="profile-section card-style" id="section-languages">
+                            <h3><i class="fa-solid fa-language"></i> Languages</h3>
+                            <div class="languages-grid" id="languages-list">
+                                <!-- Languages injected here -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Raw JSON Tab -->
+                <div id="json-payload" class="tab-content">
+                    <div class="json-viewer-card">
+                        <div class="json-header">
+                            <span class="json-title">Response Schema JSON</span>
+                            <button id="copy-json-btn" class="btn-secondary">
+                                <i class="fa-regular fa-copy"></i> <span>Copy JSON</span>
+                            </button>
+                        </div>
+                        <pre><code id="json-code-block" class="language-json">{}</code></pre>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+        
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 LinkedIn Profile Extractor API project. Reverse engineered Voyager API integration.</p>
+            <div class="footer-links">
+                <a href="/docs" target="_blank"><i class="fa-solid fa-book-open"></i> API Docs (Swagger)</a>
+                <a href="https://github.com" target="_blank"><i class="fa-brands fa-github"></i> Repository</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

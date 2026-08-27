@@ -1,0 +1,25 @@
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+.env.local
+
+# IDEs and OS files
+.DS_Store
+.idea/
+.vscode/
+
+# Scraper test/temp artifacts
+inspect_*.py
+scratch_*.py
+test_*.json
+*.log
